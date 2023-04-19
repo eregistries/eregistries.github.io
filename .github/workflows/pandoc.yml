@@ -1,4 +1,4 @@
-name: Simple Usage
+name: CreatePDFs
 
 on: push
 
@@ -9,3 +9,18 @@ jobs:
       - uses: docker://pandoc/core:2.9
         with:
           args: "--help" # gets appended to pandoc command
+
+jobs:
+  makepdfs:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v1
+    - uses: mkrakowitzer/actions-makepdfs@master
+      with:
+        markdown_dir: dem_register
+        output_dir: tmp
+    - uses: actions/upload-artifact@v1
+      with:
+        name: platform-architecture-docs
+        path: tmp
+
